@@ -2,6 +2,8 @@ import Nav from "./Nav"
 import Link from 'next/link'
 
 import styled from 'styled-components';
+import Cart from "./Cart";
+import { useCart } from "../lib/CartState";
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -35,8 +37,12 @@ const HeaderStyles = styled.header`
 `;
 
 const Header = () => {
+
+  const {cartOpen} = useCart();
+ 
 	return (
 		<HeaderStyles>
+
 		<div className="bar">
 		  <Logo>
 	  		<Link href="/">Sick fits</Link>
@@ -46,6 +52,7 @@ const Header = () => {
 		<div className="sub-bar">
 		  <p>Search</p>
 		</div>
+    {cartOpen && <Cart />}
 	  </HeaderStyles>
 	)
 }

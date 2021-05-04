@@ -2,7 +2,7 @@ import Form from "./styles/Form";
 import { useState } from "react";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/client";
-import DisplayError from './ErrorMessage';
+import DisplayError from "./ErrorMessage";
 import { CURRENT_USER_QUERY } from "./User";
 
 const SIGNIN_MUTATION = gql`
@@ -27,7 +27,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [signin, { data,  loading }] = useMutation(SIGNIN_MUTATION, {
+  const [signin, { data, loading }] = useMutation(SIGNIN_MUTATION, {
     variables: {
       email,
       password,
@@ -38,7 +38,6 @@ const SignIn = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     const res = await signin();
-    console.log(res);
     setEmail("");
     setPassword("");
   }

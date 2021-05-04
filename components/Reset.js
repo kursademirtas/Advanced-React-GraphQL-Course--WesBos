@@ -1,16 +1,19 @@
 import { useState } from "react";
 import gql from "graphql-tag";
 import Form from "./styles/Form";
-import { set } from "nprogress";
+import { useMutation } from "@apollo/client";
+import DisplayError from "./ErrorMessage";
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
     $email: String!
-    $token: String!
     $password: String!
+    $token: String!
   ) {
     redeemUserPasswordResetToken(
-      data: { email: $email, token: $token, password: $password }
+      email: $email
+      token: $token
+      password: $password
     ) {
       code
       message
@@ -18,7 +21,7 @@ const RESET_MUTATION = gql`
   }
 `;
 
-function Reset() {
+function Reset({ token }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,23 +30,30 @@ function Reset() {
     setPassword("");
   }
 
-  const [resetPassword, { data, loading }] = useMutation(RESET_MUTATION, {
+  const [resetPassword, { data, loading, error }] = useMutation(RESET_MUTATION, {
     variables: {
       email,
+      token,
       password,
     },
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await reset().catch(console.error);
+    const res = await resetPassword().catch(console.error);
     console.log(res);
+    console.log({ data, loading });
     clearForm();
   }
+
+  const successfulError = data?.redeemUserPasswordResetToken?.code
+  ? data?.redeemUserPasswordResetToken
+  : undefined;
 
   return (
     <Form method="POST" onSubmit={handleSubmit}>
       <fieldset>
+        <DisplayError error={error || successfulError}/>
         <h2>Reset your password</h2>
         <label htmlFor="email">
           Email
