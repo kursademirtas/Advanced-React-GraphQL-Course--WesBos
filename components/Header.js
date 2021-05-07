@@ -4,6 +4,7 @@ import Link from 'next/link'
 import styled from 'styled-components';
 import Cart from "./Cart";
 import { useCart } from "../lib/CartState";
+import Search from "./Search";
 
 const Logo = styled.h1`
   font-size: 4rem;
@@ -38,7 +39,7 @@ const HeaderStyles = styled.header`
 
 const Header = () => {
 
-  const {cartOpen} = useCart();
+  const { cartOpen } = useCart();
  
 	return (
 		<HeaderStyles>
@@ -50,7 +51,7 @@ const Header = () => {
       <Nav />
 		</div>
 		<div className="sub-bar">
-		  <p>Search</p>
+		 <Search />
 		</div>
     {cartOpen && <Cart />}
 	  </HeaderStyles>
