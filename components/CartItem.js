@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import formatMoney from '../lib/formatMoney'
+import RemoveFromCart from './RemoveFromCart';
 
 const CartItemStyles = styled.div`
 	padding:1rem 0;
@@ -24,7 +25,7 @@ const CartItem = ({ cartItem }) => {
 				<h2>{product.name}</h2>
 				<p>Total:{formatMoney(product.price * cartItem.quantity )}</p>
 			</div>
-		
+			<RemoveFromCart id={product.id}/>
 		</CartItemStyles>
 	)
 }
